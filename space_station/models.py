@@ -85,6 +85,6 @@ class Instruction(models.Model):
 
     def __str__(self) -> str:
         return (
-            f'Instruction of {self.user.name} to {self.station.name} '
+            f'Instruction of {self.user.username} to {self.station.name} '
             f'{self.axis}={self.distance}'
         )
