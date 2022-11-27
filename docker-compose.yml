@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:14.6
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file: .env
+  web:
+    build:
+      context: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    env_file: .env
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+volumes:
+  postgres_data:
+
+
+# Запуск docker-compose -f docker-compose-dev.yml up --build .
+#При повторном - docker-compose -f docker-compose-dev.yml up
+#Для дропа базы данных:
+#	Остановить компоуз docker-compose -f docker-compose-dev.yml down
+#	Удалить вольюм docker volume rm murr_postgres_data
