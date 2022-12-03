@@ -5,8 +5,9 @@ from space_station.models import Instruction, Position, Station
 
 
 class InstructionAdmin(admin.ModelAdmin):
+    """Model for displaying `Instructions` in django-admin"""
     list_display = ('id', 'user_name', 'station_name', 'axis', 'distance')
-    search_fields = ('id', 'user__name', 'id', 'station__name')
+    search_fields = ('id', 'user__username', 'station__name')
     list_select_related = True
 
     @admin.display(description=_('User name'))
@@ -19,12 +20,14 @@ class InstructionAdmin(admin.ModelAdmin):
 
 
 class PositionInline(admin.TabularInline):
+    """Inline-model `Position` for `Station` for django-admin"""
     model = Position
     fields = ('x', 'y', 'z')
     max_num = 1
 
 
 class StationAdmin(admin.ModelAdmin):
+    """Model for displaying `Stations` and their `Positions` in django-admin"""
     list_display = ('id', 'name', 'status', 'created_at', 'broke_at')
     inlines = (PositionInline, )
 
