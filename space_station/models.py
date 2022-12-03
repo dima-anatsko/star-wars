@@ -39,7 +39,7 @@ class Station(models.Model):
         verbose_name_plural = _('Stations')
 
     def __str__(self) -> str:
-        return self.name.__str__()
+        return self.name
 
 
 class Position(models.Model):
@@ -64,9 +64,9 @@ class Instruction(models.Model):
     """Class for creating instructions for space stations."""
 
     class Axis(models.TextChoices):
-        X = 'X', 'x'
-        Y = 'Y', 'y'
-        Z = 'Z', 'z'
+        X = 'x'
+        Y = 'y'
+        Z = 'z'
 
     user = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name='instructions'

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from space_station.models import Position, Station
+from space_station.models import Position, Station, Instruction
 
 
 class StationSerializer(serializers.ModelSerializer):
@@ -15,4 +15,12 @@ class StationSerializer(serializers.ModelSerializer):
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
+        fields = '__all__'
+
+
+class InstructionSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Instruction
         fields = '__all__'

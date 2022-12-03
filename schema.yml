@@ -1,0 +1,323 @@
+openapi: 3.0.3
+info:
+  title: Star wars API
+  version: 1.0.0
+  description: Space station management service
+paths:
+  /api/v1/stations/:
+    get:
+      operationId: v1_stations_list
+      description: Get list of stations
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+          description: ''
+    post:
+      operationId: v1_stations_create
+      description: Create the station
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Station'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Station'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Station'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+          description: ''
+  /api/v1/stations/{id}/:
+    get:
+      operationId: v1_stations_retrieve
+      description: Get information of the station
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Station.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+          description: ''
+    put:
+      operationId: v1_stations_update
+      description: Update the station
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Station.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Station'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Station'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Station'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+          description: ''
+    patch:
+      operationId: v1_stations_partial_update
+      description: Partial update the station
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Station.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStation'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+          description: ''
+    delete:
+      operationId: v1_stations_destroy
+      description: Delete the station
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Station.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/stations/{id}/state/:
+    get:
+      operationId: v1_stations_state_retrieve
+      description: Get the position of the station
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Station.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Position'
+          description: ''
+    post:
+      operationId: v1_stations_state_create
+      description: Move the station along a given axis by a certain distance
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Station.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Instruction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Instruction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Instruction'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Position'
+          description: ''
+components:
+  schemas:
+    AxisEnum:
+      enum:
+      - x
+      - y
+      - z
+      type: string
+    Instruction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        axis:
+          $ref: '#/components/schemas/AxisEnum'
+        distance:
+          type: integer
+        station:
+          type: integer
+      required:
+      - axis
+      - distance
+      - id
+      - station
+    PatchedStation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          title: Name of station
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Start date
+        broke_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          title: Date of breakdown
+    Position:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        x:
+          type: integer
+          title: X-axis coordinate
+        y:
+          type: integer
+          title: Y-axis coordinate
+        z:
+          type: integer
+          title: Z-axis coordinate
+        station:
+          type: integer
+      required:
+      - id
+      - station
+    Station:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          title: Name of station
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Start date
+        broke_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          title: Date of breakdown
+      required:
+      - broke_at
+      - created_at
+      - id
+      - name
+      - status
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
