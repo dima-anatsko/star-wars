@@ -22,6 +22,7 @@ from space_station.serializers import (
     destroy=extend_schema(description='Delete the station'),
 )
 class StationViewSet(viewsets.ModelViewSet):
+    """View to represent the station"""
     queryset = Station.objects.all()
     serializer_class = StationSerializer
     permission_classes = [IsAuthenticated]
@@ -39,17 +40,20 @@ class StationViewSet(viewsets.ModelViewSet):
     )
     @action(methods=['get', 'post'], detail=True)
     def state(self, request, pk: int = None) -> Response:
+        """Provides methods for displaying and changing the station position"""
         if request.method == 'GET':
             return self._get_state(request, pk)
         return self._post_state(request, pk)
 
     @staticmethod
     def _get_state(request, station_pk: int) -> Response:
+        """Return the `Position` of the `Station`"""
         position = get_object_or_404(Position, station_id=station_pk)
         serializer = PositionSerializer(position)
         return Response(serializer.data)
 
     def _post_state(self, request, station_pk: int) -> Response:
+        """Create `Instruction, move `Station` and return new `Position`"""
         self._create_instruction(request)
         position = get_object_or_404(Position, station_id=station_pk)
         serializer = PositionSerializer(position)
@@ -57,6 +61,7 @@ class StationViewSet(viewsets.ModelViewSet):
 
     @staticmethod
     def _create_instruction(request) -> None:
+        """Create `Instruction`"""
         instruction = InstructionSerializer(
             data=request.data,
             context={'request': request},
