@@ -21,10 +21,3 @@ services:
       - db
 volumes:
   postgres_data:
-
-
-# Запуск docker-compose -f docker-compose-dev.yml up --build .
-#При повторном - docker-compose -f docker-compose-dev.yml up
-#Для дропа базы данных:
-#	Остановить компоуз docker-compose -f docker-compose-dev.yml down
-#	Удалить вольюм docker volume rm murr_postgres_data
