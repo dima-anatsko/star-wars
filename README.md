@@ -1,4 +1,4 @@
-## Сервис по управлению космическими станциями.:
+## Сервис по управлению космическими станциями:
 
 В сервисе хранится информация станциях и их позиции в пространстве. Через сервис можно CRUD станций и изменять из позицию.
 
@@ -16,7 +16,7 @@ PS. то что это космическая станция не отменяе
 `http://127.0.0.1:8000/api/schema/docs/`
 
 
-![Иллюстрация к проекту](https://github.com/dima-anatsko/star-wars/raw/master/image/api-schema-docs.png)
+![Example_docs_api](https://github.com/dima-anatsko/star-wars/raw/master/image/api-schema-docs.png)
 
 ## Покрытие тестами:
 
